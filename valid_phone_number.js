@@ -40,4 +40,3 @@ function validPhoneNumber (phoneNumber) {
 
   return result;
 }
-console.log (validPhoneNumber ('(0m0) 456-7890'));
