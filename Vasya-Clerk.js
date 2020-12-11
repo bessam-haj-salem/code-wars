@@ -23,5 +23,34 @@
 // compare the sum inside arr1 and splice if its equal to the elemeent in arr and splice the element of the arr after
 
 function tickets (peopleInLine) {
+  debugger;
+  let arr25 = [];
+  let sum25;
+  if (arr25.length !== 0) {
+    sum25 = arr25.reduce ((a, b) => a + b);
+  }
+  let diff = 0;
+  if (peopleInLine[0] !== 25) {
+    return 'NO';
+  }
+  for (let i = 0; i <= peopleInLine.length; i++) {
+    if (peopleInLine[i] === 25) {
+      arr25.push (peopleInLine[i]);
+      peopleInLine.splice (i, 1);
+    } else {
+      if (peopleInLine[0] === sum25) {
+        arr25 = [];
+        peopleInLine.splice (0, 1);
+        i--;
+      } else if (peopleInLine > sum25) {
+        return 'NO';
+      } else if (peopleInLine < sum25) {
+        diff = sum25 - peopleInLine;
+        arr25.push (diff);
+      }
+    }
+  }
+  return 'YES';
   // ...
 }
+console.log (tickets ([25, 100]));
