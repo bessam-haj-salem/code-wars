@@ -23,10 +23,7 @@ let s1 =
 //solution:
 //I : string;
 // O: string;
-//pseudocode:
-//1. turn the input to uppercase
-//2. put the last name before the name and replace the colon with the quotation mark
-//3. do the alphabetic sort
+
 function meeting (s) {
   let arr1 = s.split (';');
   let arr2 = [];
