@@ -1,7 +1,7 @@
 // John has invited some friends. His list is:
 
 let s1 =
-  'Fred:Corwill;Wilfred:Corwill;Barney:Tornbull;Betty:Tornbull;Bjon:Tornbull;Raphael:Corwill;Alfred:Corwill';
+  'Alexis:Wahl;John:Bell;Victoria:Schwarz;Abba:Dorny;Grace:Meta;Ann:Arno;Madison:STAN;Alex:Cornwell;Lewis:Kern;Megan:Stan;Alex:Korn';
 // Could you make a program that
 
 // makes this string uppercase
@@ -31,29 +31,32 @@ function meeting (s) {
   let arr1 = s.split (';');
   let arr2 = [];
   let arr3 = [];
+  let arrR1 = [];
+  let arrS1 = [];
+  //reverse the words :
+  for (let i = 0; i < arr1.length; i++) {
+    arr1[i] = arr1[i].split (':').reverse ().join ();
+  }
   //transform the string to uppercase
   for (let i = 0; i < arr1.length; i++) {
     arr1[i] = arr1[i].toUpperCase ();
   }
-  //   console.log (arr1);
+  //add the '(' and ')' ;
   for (let i = 0; i < arr1.length; i++) {
     arr2 = arr1[i].split ('');
     arr2.splice (0, 0, '(');
     arr2.push (')');
-    console.log (arr2);
-    for (let j = 0; j < arr2.length; j++) {
-      //  arr1[i] = arr2
 
-      console.log (arr2);
-      if (arr2[j] === ':') {
-        arr2.splice (j, 1, ',');
+    for (let j = 0; j < arr2.length; j++) {
+      //removing the ',' and replace it with ', '
+      if (arr2[j] === ',') {
+        arr2.splice (j, 1, ', ');
       }
-      arr3.push (arr2.join (''));
     }
+    
+    arr3.push (arr2.join (''));
   }
-  //   console.log (arr2);
-  console.log (arr1);
-  console.log (arr3);
-  // your code
+  arr3 = arr3.sort ().join ('');
+  return arr3;
 }
 console.log (meeting (s1));
