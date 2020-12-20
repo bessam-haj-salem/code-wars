@@ -42,23 +42,22 @@ function sumIntervals (intervals) {
   debugger;
   let arr2 = [];
   let arr = intervals.slice ();
-  for (let i = 0; i < intervals.length; i++) {
+  let count = 0;
+  for (let i = 0; i < 1; i++) {
     for (let j = 0; j < arr.length; j++) {
-      if (arr[j][0] < intervals[i][1]) {
-        arr2.push ( arr[j][1] - intervals[i][0]);
-        arr.splice(j,1)
-      } 
-     
-    //   else if (arr[j][0] >= intervals[i][1]) {
-    //     arr2.push (intervals[i][1] - intervals[i][0]);
-    //     arr.splice(j,1)
-    //   }
+      if (intervals[i][1] >= arr[j][0] && arr[j][0] >= intervals[i][0]) {
+        arr2.push (arr[j][1] - intervals[i][0]);
+      } else {
+        arr2.push (arr[j][1] - arr[j][0]);
+      }
     }
-   
+    //intervals.splice (i, 1);
   }
   //arr2.pop()
-  return arr2;
+  return arr2.reduce ((a, b) => a + b);
 }
-console.log (sumIntervals ([[1,2],
-       [6, 10],
-       [11, 15]]));
+console.log (sumIntervals ([ [1,5],
+  [10, 20],
+  [1, 6],
+  [16, 19],
+  [5, 11]]));
