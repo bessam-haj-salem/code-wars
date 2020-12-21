@@ -43,21 +43,28 @@ function sumIntervals (intervals) {
   let arr2 = [];
   let arr = intervals.slice ();
   let count = 0;
-  for (let i = 0; i < 1; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      if (intervals[i][1] >= arr[j][0] && arr[j][0] >= intervals[i][0]) {
-        arr2.push (arr[j][1] - intervals[i][0]);
-      } else {
-        arr2.push (arr[j][1] - arr[j][0]);
+  let result = 0;
+  for (let i = 0; i < arr.length; i++) {
+    result += arr[i][1] - arr[i][0];
+  }
+  for (let i = 0; i < intervals.length; i++) {
+    for (let j = 1; j < intervals.length; j++) {
+      if (intervals[i][1] <= intervals[j][0]) {
+        arr2.push (
+          intervals[i][1] - intervals[i][0] + intervals[j][1] - intervals[j][0]
+        );
+      } else if (
+        intervals[i][1] < intervals[j][1] &&
+        intervals[i][0] <= intervals[j][0]
+      ) {
+        arr2.push (intervals[j][1] - intervals[i][0]);
       }
     }
+    intervals.splice (i, 1);
     //intervals.splice (i, 1);
   }
-  //arr2.pop()
-  return arr2.reduce ((a, b) => a + b);
+  console.log (result);
+  console.log (arr2);
+  return arr2.reduce ((a, b) => a + b) - result;
 }
-console.log (sumIntervals ([ [1,5],
-  [10, 20],
-  [1, 6],
-  [16, 19],
-  [5, 11]]));
+console.log (sumIntervals ([[1, 5], [10, 20], [1, 6], [16, 19], [5, 11]]));
