@@ -48,17 +48,15 @@ function sumIntervals (intervals) {
     result += arr[i][1] - arr[i][0];
   }
   for (let i = 0; i < intervals.length; i++) {
-    for (let j = 1; j < intervals.length; j++) {
-      if (intervals[i][1] <= intervals[j][0]) {
-        arr2.push (
-          intervals[i][1] - intervals[i][0] + intervals[j][1] - intervals[j][0]
-        );
-      } else if (
-        intervals[i][1] < intervals[j][1] &&
-        intervals[i][0] <= intervals[j][0]
-      ) {
-        arr2.push (intervals[j][1] - intervals[i][0]);
-      }
+    for (let j = 0; j < arr.length; j++) {
+      if (intervals[i][1] <= arr[j][0]) {
+        arr2.push (intervals[i][1] - intervals[i][0] + arr[j][1] - arr[j][0]);
+      } else if (intervals[i][1] > arr[j][0] && arr[j][1] > intervals[i][1]) {
+        arr2.push (arr[j][1] - intervals[i][0]);
+       }else if(intervals[i][0] < arr[j][0] && intervals[i][1] > arr[j][1]) {
+         arr2.push(intervals[i][1] - intervals[i][0])
+       }
+       arr.splice(j,1)
     }
     intervals.splice (i, 1);
     //intervals.splice (i, 1);
