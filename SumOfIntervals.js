@@ -53,10 +53,12 @@ function sumIntervals (intervals) {
         arr2.push (intervals[i][1] - intervals[i][0] + arr[j][1] - arr[j][0]);
       } else if (intervals[i][1] > arr[j][0] && arr[j][1] > intervals[i][1]) {
         arr2.push (arr[j][1] - intervals[i][0]);
-       }else if(intervals[i][0] < arr[j][0] && intervals[i][1] > arr[j][1]) {
-         arr2.push(intervals[i][1] - intervals[i][0])
-       }
-       arr.splice(j,1)
+      } else if (intervals[i][0] < arr[j][0] && intervals[i][1] > arr[j][1]) {
+        arr2.push (intervals[i][1] - intervals[i][0]);
+      } else if (intervals[i][0] < arr[j][0] && intervals[i][1] < arr[j][1]) {
+        arr2.push (arr[j][1] - intervals[i][0]);
+      }
+      arr.splice (j, 1);
     }
     intervals.splice (i, 1);
     //intervals.splice (i, 1);
