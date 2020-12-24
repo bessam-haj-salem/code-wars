@@ -2,8 +2,8 @@
 
 // For example:
 
-// var water = 'H2O';
-// parseMolecule(water); // return {H: 2, O: 1}
+ var water = 'H2O';
+console.log(parseMolecule(water));    // return {H: 2, O: 1}
 
 // var magnesiumHydroxide = 'Mg(OH)2';
 // parseMolecule(magnesiumHydroxide); // return {Mg: 1, O: 2, H: 2}
@@ -14,37 +14,92 @@
 
 // Note that brackets may be round, square or curly and can also be nested. Index after the braces is optional.
 
-function parseMolecule (formula) {
-  let formula0 = formula.split ('');
+function parseMolecule(formula) {
+	const BRACKET_OPENER_REGEXP = /\[|\{|\(/;
+	const BRACKET_CLOSER_REGEXP = /\]|\}|\)/;
+	const VALID_ATOM_REGEXP = /^[A-Z][a-z]?$/;
+	const MULTIPLIER_REGEXP = /^\d+/;
 
-  let obj = {};
+	function createGroup(parent = {}) {
+		return {atoms : {}, groups : [], multiplier : 1, parent};
+	}
 
-  let arr1 = [];
-  let str;
-  for (let i = 0; i < formula0.length; i++) {
-    // for (let j = 0; j < formula1.length; i++) {
+	function extractGroups(str) {
+		const collection = createGroup();
+		let currentGroup = collection;
 
-    if (
-      typeof formula0[i] === 'string' &&
-      typeof formula0[i + 1] === 'string' &&
-      formula0[i] === formula0[i].toUpperCase () &&
-      formula0[i + 1] === formula0[i + 1].toLowerCase () &&
-      typeof formula0[i + 2] === 'number'
-    ) {
-      let arr = [];
-      arr.push (formula0[i], formula0[i + 1]);
-      str = arr.join ();
-      obj[str] = formula0[i + 2];
-      i += 2;
-    } else if (
-      typeof formula0[i] === 'string' &&
-      formula0[i] === formula0[i].toUpperCase () &&
-      typeof formula0[i + 1] === 'number'
-    ) {
-      obj[formula0[i]] = formula0[i + 1];
-    }
-  }
-  return obj;
+		for (let i = 0; i < str.length; i++) {
+			const currentChar = str[i];
+			let isCloser = false;
+			let atom;
+			let multiplier = 1;
+
+			if (BRACKET_OPENER_REGEXP.test(currentChar)) {
+				// move down one level
+				const parentGroup = currentGroup;
+				currentGroup = createGroup(parentGroup);
+				parentGroup.groups.push(currentGroup);
+
+				continue;
+			}
+			else if (BRACKET_CLOSER_REGEXP.test(currentChar)) {
+				// move up one level
+				isCloser = true;
+			}
+			else if (VALID_ATOM_REGEXP.test(currentChar)) {
+				const currentChar = str[i];
+				const extendedChars = currentChar + str[i + 1];
+				atom = currentChar;
+
+				if (VALID_ATOM_REGEXP.test(extendedChars)) {
+					atom = extendedChars;
+					i++;
+				}
+			}
+
+			// look at following chars for multiplier
+			const multiplierMatch = str.slice(i + 1).match(MULTIPLIER_REGEXP);
+
+			if (multiplierMatch) {
+				const multiplierStr = multiplierMatch[0];
+				multiplier = +multiplierStr;
+				i += multiplierStr.length;
+			}
+
+			if (isCloser) {
+				currentGroup.multiplier = multiplier;
+				currentGroup = currentGroup.parent;
+			}
+			else {
+				const currentAtomCount = currentGroup.atoms[atom] || 0;
+				currentGroup.atoms[atom] = currentAtomCount + multiplier;
+			}
+		}
+
+		return collection;
+	}
+
+	function sumGroup(group, cumulatedMultiplier = 1, acc = {}) {
+		const {groups, multiplier, atoms} = group;
+
+		cumulatedMultiplier *= multiplier;
+
+		for (let i = 0; i < groups.length; i++) {
+			sumGroup(groups[i], cumulatedMultiplier, acc);
+		}
+
+		// Object.entries cannot be used yet on codewars :(
+		Object.keys(atoms).forEach(atom => {
+			const prevCount = acc[atom] || 0;
+			const count = atoms[atom];
+
+			acc[atom] = prevCount + (count * cumulatedMultiplier);
+		});
+
+		return acc;
+	}
+
+	const collection = extractGroups(formula);
+	return sumGroup(collection);
 }
-console.log (parseMolecule ('Mg2O2'));
-// do your science here
+
