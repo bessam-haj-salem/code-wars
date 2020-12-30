@@ -12,44 +12,82 @@
 
 // Also, beware of plateaus !!! [1, 2, 2, 2, 1] has a peak while [1, 2, 2, 2, 3] and [1, 2, 2, 2, 2] do not. In case of a plateau-peak, please only return the position and value of the beginning of the plateau. For example: pickPeaks([1, 2, 2, 2, 1]) returns {pos: [1], peaks: [2]} (or equivalent in other languages)
 
-function pickPeaks (arr) {
-  let result = {pos: [], peaks: []};
+// function pickPeaks (arr) {
+//   debugger;
+//   let result = {pos: [], peaks: []};
 
-  function pickone (arr) {
-    if (arr.length === 0) {
-      return this.result;
-    }
-    let arr1 = [];
-    arr.splice (0, 1);
-    let max = Math.max (...arr);
-    let arrSorted = arr.sort ((a, b) => {
-      return a - b;
-    });
+//   let pickone = arr => {
+//     if (arr.length === 0) {
+//       return this.result;
+//     }
+//     let arr1 = [];
+//     arr.splice (0, 1);
+//     let max = Math.max (...arr);
+//     let arrSorted = arr.sort ((a, b) => {
+//       return a - b;
+//     });
 
-    function arraysEqual (a, b) {
-      if (a === b) return true;
-      if (a == null || b == null) return false;
-      if (a.length !== b.length) return false;
+//     let arraysEqual = (a, b) => {
+//       if (a === b) return true;
+//       if (a == null || b == null) return false;
+//       if (a.length !== b.length) return false;
 
-      for (var i = 0; i < a.length; ++i) {
-        if (a[i] !== b[i]) return false;
-      }
-      return true;
-    }
-    if (!arraysEqual (this.arrSorted, this.arr) && !this.arr[this.arr.length - 1] === max) {
-     this.result['pos'].push (indexof (max));
-      this.result['peaks'].push (max);
-      this.arr.splice (indexOf (max), 1);
-      let arr1 = this.arr;
-    }
-    return pickone (arr1);
+//       for (var i = 0; i < a.length; ++i) {
+//         if (a[i] !== b[i]) return false;
+//       }
+//       return true;
+//     };
+//     if (
+//       !arraysEqual (this.arrSorted, this.arr) &&
+//       !this.arr[this.arr.length - 1] === max
+//     ) {
+//       this.result['pos'].push (indexof (max));
+//       this.result['peaks'].push (max);
+//       this.arr.splice (indexOf (max), 1);
+//       let arr1 = this.arr;
+//     }
+//     return pickone (arr1);
+//   };
+//   pickone (arr);
+//   return result;
+//   //  return {pos:[],peaks:[]}
+// }
+
+let arr2 = [0, 1, 2, 5, 1, 0];
+let result = {pos: [], peaks: []};
+
+let pickone = arr => {
+  debugger;
+  if (arr.length === 0) {
+    return result;
   }
-  pickone(arr)
-  return result;
-  //  return {pos:[],peaks:[]}
-}
+  let arr1 = [];
+  let mainArr = arr.slice()
+  mainArr.splice (0, 1);
+  let max = Math.max (...mainArr);
+  arr1 = mainArr.slice();
+  let arrSorted = arr1.sort ((a, b) => {
+    return a - b;
+  });
 
-let arr = [0, 1, 2, 5, 1, 0]
+  let arraysEqual = (a, b) => {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
 
-console.log(pickPeaks(arr));
-
+    for (var i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  };
+  console.log (!arraysEqual (arrSorted, mainArr), !mainArr[mainArr.length - 1] === max);
+  if (arraysEqual (arrSorted, mainArr) && mainArr[mainArr.length - 1] === max) {
+    return result;
+  } else {
+    result['pos'].push (arr.indexOf (max));
+    result['peaks'].push (max);
+    mainArr.splice (mainArr.indexOf (max), 1);
+  }
+  return pickone (mainArr);
+};
+console.log (pickone (arr2));
