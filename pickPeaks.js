@@ -12,82 +12,52 @@
 
 // Also, beware of plateaus !!! [1, 2, 2, 2, 1] has a peak while [1, 2, 2, 2, 3] and [1, 2, 2, 2, 2] do not. In case of a plateau-peak, please only return the position and value of the beginning of the plateau. For example: pickPeaks([1, 2, 2, 2, 1]) returns {pos: [1], peaks: [2]} (or equivalent in other languages)
 
-// function pickPeaks (arr) {
-//   debugger;
-//   let result = {pos: [], peaks: []};
-
-//   let pickone = arr => {
-//     if (arr.length === 0) {
-//       return this.result;
-//     }
-//     let arr1 = [];
-//     arr.splice (0, 1);
-//     let max = Math.max (...arr);
-//     let arrSorted = arr.sort ((a, b) => {
-//       return a - b;
-//     });
-
-//     let arraysEqual = (a, b) => {
-//       if (a === b) return true;
-//       if (a == null || b == null) return false;
-//       if (a.length !== b.length) return false;
-
-//       for (var i = 0; i < a.length; ++i) {
-//         if (a[i] !== b[i]) return false;
-//       }
-//       return true;
-//     };
-//     if (
-//       !arraysEqual (this.arrSorted, this.arr) &&
-//       !this.arr[this.arr.length - 1] === max
-//     ) {
-//       this.result['pos'].push (indexof (max));
-//       this.result['peaks'].push (max);
-//       this.arr.splice (indexOf (max), 1);
-//       let arr1 = this.arr;
-//     }
-//     return pickone (arr1);
-//   };
-//   pickone (arr);
-//   return result;
-//   //  return {pos:[],peaks:[]}
-// }
-
 let arr2 = [0, 1, 2, 5, 1, 0];
-let result = {pos: [], peaks: []};
+//let result = {pos: [], peaks: []};
 
-let pickone = arr => {
+function pickPeaks (arr) {
   debugger;
-  if (arr.length === 0) {
-    return result;
-  }
-  let arr1 = [];
-  let mainArr = arr.slice()
-  mainArr.splice (0, 1);
-  let max = Math.max (...mainArr);
-  arr1 = mainArr.slice();
-  let arrSorted = arr1.sort ((a, b) => {
-    return a - b;
-  });
+  let result = {pos: [], peaks: []};
+  let arr1 = arr.slice ();
 
-  let arraysEqual = (a, b) => {
-    if (a === b) return true;
-    if (a == null || b == null) return false;
-    if (a.length !== b.length) return false;
-
-    for (var i = 0; i < a.length; ++i) {
-      if (a[i] !== b[i]) return false;
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
+      result['pos'].push (i);
+      result['peaks'].push (arr[i]);
+    } else if (arr[i] > arr[i - 1] && arr[i] === arr[i + 1]) {
+      arr.splice (i, 1);
+      i--;
     }
-    return true;
-  };
-  console.log (!arraysEqual (arrSorted, mainArr), !mainArr[mainArr.length - 1] === max);
-  if (arraysEqual (arrSorted, mainArr) && mainArr[mainArr.length - 1] === max) {
-    return result;
-  } else {
-    result['pos'].push (arr.indexOf (max));
-    result['peaks'].push (max);
-    mainArr.splice (mainArr.indexOf (max), 1);
   }
-  return pickone (mainArr);
-};
-console.log (pickone (arr2));
+  return result;
+}
+
+//console.log(pickPeaks([1,2,2,2,2]));
+console.log (
+  pickPeaks ([
+    1,
+    2,
+    5,
+    4,
+    3,
+    2,
+    3,
+    6,
+    4,
+    1,
+    2,
+    3,
+    3,
+    4,
+    5,
+    3,
+    2,
+    1,
+    2,
+    3,
+    5,
+    5,
+    4,
+    3,
+  ])
+);
