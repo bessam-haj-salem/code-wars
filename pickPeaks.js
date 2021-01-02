@@ -19,45 +19,23 @@ function pickPeaks (arr) {
   debugger;
   let result = {pos: [], peaks: []};
   let arr1 = arr.slice ();
+  let count = 0
 
   for (let i = 1; i < arr.length; i++) {
     if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
-      result['pos'].push (i);
-      result['peaks'].push (arr[i]);
-    } else if (arr[i] > arr[i - 1] && arr[i] === arr[i + 1]) {
+      result['pos'].push (i + count);      
+      result['peaks'].push (arr[i]); 
+          count = 0 
+    } else if (arr[i] === arr[i + 1]) {
       arr.splice (i, 1);
       i--;
+      count++
     }
   }
   return result;
 }
 
-//console.log(pickPeaks([1,2,2,2,2]));
-console.log (
-  pickPeaks ([
-    1,
-    2,
-    5,
-    4,
-    3,
-    2,
-    3,
-    6,
-    4,
-    1,
-    2,
-    3,
-    3,
-    4,
-    5,
-    3,
-    2,
-    1,
-    2,
-    3,
-    5,
-    5,
-    4,
-    3,
-  ])
-);
+console.log(pickPeaks([1,2,2,2,2,1]));
+// console.log (
+//   pickPeaks ([2,1,3,2,2,2,2,1])
+// );
