@@ -15,38 +15,27 @@
 //let result = {pos: [], peaks: []};
 
 function pickPeaks (arr) {
-  debugger;
   let result = {pos: [], peaks: []};
-  let arr1 = arr.slice ();
   let count = 0;
-  let arrRepeat = [];
-
   for (let i = 1; i < arr.length; i++) {
     if (arr[i] > arr[i - 1] && arr[i] > arr[i + 1]) {
-      if (!arrRepeat.length === 0) {
-        console.log (arrRepeat);
-        if (arrRepeat[arrRepeat.length - 1][1] === arr[i]) {
-          result['pos'].push (arrRepeat[arrRepeat.length - 1][0]);
-          result['peaks'].push (arr[i]);
-        }
-      } else {
-        result['pos'].push (i);
-        result['peaks'].push (arr[i]);
-      }
+      result['pos'].push (i);
+      result['peaks'].push (arr[i]);
+    } else if (arr[i] > arr[i - count - 1] && arr[i] > arr[i + 1]) {
+      result['pos'].push (i - count);
+      result['peaks'].push (arr[i]);
+      count = 0;
     } else if (arr[i] === arr[i + 1]) {
-      arrRepeat.push ([i, arr[i]]);
-      arr.splice (i, 1);
-      i--;
       count++;
+    } else {
+      count = 0;
     }
   }
   return result;
 }
 
-console.log (pickPeaks ([3, 2, 3, 6, 4, 1, 2, 3, 2, 1, 2, 2, 2, 1]));
-// console.log (
-//   pickPeaks ([2,1,3,2,2,2,2,1])
-// );
+console.log (pickPeaks ([]));
+
 // [1,2,3,6,4,1,2,3,2,1] okk
 // [3,2,3,6,4,1,2,3,2,1,2,3] okk
 // [3,2,3,6,4,1,2,3,2,1,2,2,2,1] okk
@@ -54,5 +43,5 @@ console.log (pickPeaks ([3, 2, 3, 6, 4, 1, 2, 3, 2, 1, 2, 2, 2, 1]));
 // [2,1,3,1,2,2,2,2] okk
 // [2,1,3,2,2,2,2,5,6] okk
 // [2,1,3,2,2,2,2,1] okk
-// [1,2,5,4,3,2,3,6,4,1,2,3,3,4,5,3,2,1,2,3,5,5,4,3]
+// [1,2,5,4,3,2,3,6,4,1,2,3,3,4,5,3,2,1,2,3,5,5,4,3] okk
 // [1,1,1,1]
