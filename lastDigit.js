@@ -28,15 +28,80 @@
 // Remarks
 // JavaScript, C++, R, PureScript
 // // Since these languages don't have native arbitrarily large integers, your arguments are going to be strings representing non-negative integers instead.
-var bigInt = require ('big-integer');
-var lastDigit = function (str1, str2) {
-//   numb1 = Number (str1);
-//   numb2 = Number (str2);
-//   let result = bigInt (str1).pow (str2);
-//   console.log(result);
-//   let arr = result.toString ().split ('');
-//   let resultNumb = Number (arr[arr.length - 1]);
 
-  return resultNumb; // fix me
+var lastDigit = function (str1, str2) {
+  let arr1 = str1.split ('');
+  let arr2 = arr1.slice ();
+  let arrMul = [];
+  function add (a, b) {
+    let arr1 = a.split ('');
+    let arr2 = b.split ('');
+    let arr3 = [];
+    if (arr1.length > arr2.length) {
+      let numb = arr1.length - arr2.length;
+      for (let i = 0; i < numb; i++) {
+        arr2.unshift (0);
+      }
+    } else if (arr1.length < arr2.length) {
+      let numb = arr2.length - arr1.length;
+      for (let i = 0; i < numb; i++) {
+        arr1.unshift (0);
+      }
+    }
+    let i = arr1.length - 1;
+    let j = arr2.length - 1;
+    while (i >= 0 && j >= 0) {
+      let sum = +arr1[i] + +arr2[j];
+      if (sum < 10) {
+        arr3.push (sum);
+        i--;
+        j--;
+      } else if (sum >= 10) {
+        if (i === 0 && j === 0) {
+          arr3.push (sum);
+          i--;
+          j--;
+        } else {
+          let arrRest = sum.toString ().split ('');
+          arr3.push (+arrRest[1]);
+
+          arr1[i - 1] = +arr1[i - 1] + +arrRest[0];
+          i--;
+          j--;
+        }
+      }
+    }
+    return arr3.reverse ().join ('');
+  }
+  let arrMulBig = [];
+  for (i = arr1.length - 1; i > 0; i--) {
+    for (j = arr2.length - 1; j > 0; j--) {
+      let mul = +arr1[i] * +arr2[j];
+      if (mul < 10) {
+        arrMul.push (mul);
+      } else {
+        let arrRest = mul.toString ().split ('');
+        arrMul.push (+arrRest[1]);
+
+        arr1[i - 1] = +arr1[i - 1] + +arrRest[0];
+      }
+    }
+    arrMulBig.push (+arrMul.join (''));
+    arrMul = [];
+  }
+  for (let i = 1; i < arrMulBig.length; i++) {
+    arrMulBig[i] = +arrMulBig[i].toString () * 10 ** i;
+  }
+  let result = "";
+  console.log(arrMulBig);
+  for (let i = 0; i < arrMulBig.length; i++) {
+    result = add(result, arrMulBig[i].toString ())
+  }
+  console.log (result);
 };
-console.log ("3" > "12");
+console.log (
+  lastDigit (
+    '3715290469715693021198967285016729344580685479654510946723',
+    '68819615221552997273737174557165657483427362207517952651'
+  )
+);
