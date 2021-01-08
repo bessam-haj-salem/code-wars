@@ -35,6 +35,8 @@ var lastDigit = function (str1, str2) {
   let arrMul = [];
   function add (a, b) {
     let arr1 = a.split ('');
+    console.log(a);
+    console.log(b);
     let arr2 = b.split ('');
     let arr3 = [];
     if (arr1.length > arr2.length) {
@@ -78,7 +80,8 @@ var lastDigit = function (str1, str2) {
     for (j = arr2.length - 1; j > 0; j--) {
       let mul = +arr1[i] * +arr2[j];
       if (mul < 10) {
-        arrMul.push (mul);
+        arrMul.push (multoString())
+//console.log(arrMul);
       } else {
         let arrRest = mul.toString ().split ('');
         arrMul.push (+arrRest[1]);
@@ -86,22 +89,34 @@ var lastDigit = function (str1, str2) {
         arr1[i - 1] = +arr1[i - 1] + +arrRest[0];
       }
     }
-    arrMulBig.push (+arrMul.join (''));
+    arrMulBig.push (arrMul.join (''));
     arrMul = [];
   }
-  for (let i = 1; i < arrMulBig.length; i++) {
-    arrMulBig[i] = +arrMulBig[i].toString () * 10 ** i;
+console.log(arrMulBig);
+  //console.log(arrMulBig.length);
+ // console.log(arrMulBig[1]);
+  //console.log(arrMulBig[3]);
+  arrMulBig[1] = arrMulBig[1] + 0
+  //console.log(arrMulBig[1]);
+  for (let i = 2; i < arrMulBig.length; i++) {
+    arrMulBig[i] = arrMulBig[i] + arrMulBig[i-1].slice(-i+1) + 0 ;
+   // console.log(arrMulBig[i]);
   }
+ // console.log(arrMulBig[3]);
+ // console.log(arrMulBig[3]);
+  //console.log(arrMulBig);
   let result = "";
   console.log(arrMulBig);
   for (let i = 0; i < arrMulBig.length; i++) {
-    result = add(result, arrMulBig[i].toString ())
+    result = add(result, arrMulBig[i])
   }
-  console.log (result);
+ //console.log (result);
 };
-console.log (
-  lastDigit (
-    '3715290469715693021198967285016729344580685479654510946723',
-    '68819615221552997273737174557165657483427362207517952651'
-  )
-);
+//console.log (
+//   lastDigit (
+//     '3715290469715693021198967285016729344580685479654510946723',
+//     '68819615221552997273737174557165657483427362207517952651'
+//   )
+// );
+//console.log(lastDigit("10","10000000000"));
+console.log(lastDigit("1","4"));
