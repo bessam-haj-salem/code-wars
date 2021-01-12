@@ -108,7 +108,7 @@ console.log(arrMulBig);
   let result = "";
   console.log(arrMulBig);
   for (let i = 0; i < arrMulBig.length; i++) {
-    result = add(result, arrMulBig[i])
+    result = result + add(result, arrMulBig[i])
   }
  //console.log (result);
 };

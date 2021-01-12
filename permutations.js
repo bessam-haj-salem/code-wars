@@ -10,6 +10,7 @@ const {chartreuse} = require ('color-name');
 // The order of the permutations doesn't matter.
 
 function permutations (string) {
+  debugger
     let buildWord = (word, usedIndexes, chars, combinations) => {
         combinations.push (word);
         chars.forEach ((char, i) => {
