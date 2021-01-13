@@ -1,5 +1,7 @@
 function multiply (a, b) {
+  debugger;
   //function for adding two big numbers done before
+  //*********************************** */
   function add (a, b) {
     let arr1 = a.split ('');
     // console.log (a);
@@ -42,7 +44,7 @@ function multiply (a, b) {
     }
     return arr3.reverse ().join ('');
   }
-
+  //**************** */
   //split numbers in arrays :
   let arrNumb1 = a.split ('');
   //console.log(arrNumb1);
@@ -52,12 +54,16 @@ function multiply (a, b) {
   let multBig = [];
   let rest = 0;
   let rest1 = 0;
-  for (let i = 0; i < arrNumb2.length; i++) {
-    for (let j = 0; j < arrNumb1.length; j++) {
+  for (let i = arrNumb2.length - 1; i >= 0; i--) {
+    for (let j = arrNumb1.length - 1; j >= 0; j--) {
       mult = +arrNumb1[j] * +arrNumb2[i];
-     // console.log(mult);
+      console.log (mult);
       if (mult >= 10) {
         if (rest1 !== 0) {
+          if (i === 0 && j === 0) {
+            mult = mult + rest1;
+            multArr.push (mult);
+          }
           mult = mult + rest1;
           rest = +mult.toString ().charAt (1);
           rest1 = +mult.toString ().charAt (0);
@@ -77,20 +83,28 @@ function multiply (a, b) {
     }
     //console.log(multBig);
     multBig.push (multArr.join (''));
-    console.log(multArr);
+    console.log (multArr);
     multArr = [];
   }
-  console.log(multBig);
-  multBig[1] = multBig[1] + 0
+  console.log (multBig);
+  if (multBig.length === 1) {
+    return multBig[0];
+  }
+  multBig[1] = multBig[1] + 0;
   for (let i = 2; i < multBig.length; i++) {
-    multBig[i] = multBig[i] + multBig[i-1].slice(-i+1) + 0 ;
-   // console.log(arrMulBig[i]);
+    multBig[i] = multBig[i] + multBig[i - 1].slice (-i + 1) + 0;
+    // console.log(arrMulBig[i]);
   }
-  let result = "";
-  console.log(multBig);
+  let result = '';
+  console.log (multBig);
   for (let i = 0; i < multBig.length; i++) {
-    result = result + add(result, multBig[i])
+    result = result + add (result, multBig[i]);
   }
-  return result
+
+  result = result.replace (/^0+/, '');
+
+  return result;
 }
-console.log(multiply("1","4"));
+console.log (multiply ('0', '30'));
+/// remove the zeros from the beginning
+// if length not equal switch
