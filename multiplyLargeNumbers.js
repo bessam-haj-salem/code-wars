@@ -1,5 +1,16 @@
 function multiply (a, b) {
   debugger;
+  if (a !== '0' && b !== '0') {
+    a = a.replace (/^0+/, '');
+    b = b.replace (/^0+/, '');
+  }
+
+  let switch1;
+  if (a.length < b.length) {
+    switch1 = a;
+    a = b;
+    b = switch1;
+  }
   //function for adding two big numbers done before
   //*********************************** */
   function add (a, b) {
@@ -57,7 +68,7 @@ function multiply (a, b) {
   for (let i = arrNumb2.length - 1; i >= 0; i--) {
     for (let j = arrNumb1.length - 1; j >= 0; j--) {
       mult = +arrNumb1[j] * +arrNumb2[i];
-      console.log (mult);
+      //console.log (mult);
       if (mult >= 10) {
         if (rest1 !== 0) {
           if (i === 0 && j === 0) {
@@ -74,21 +85,26 @@ function multiply (a, b) {
           multArr.push (rest);
         }
       } else {
-        if (rest !== 0) {
+        if (rest1 !== 0) {
           multArr.push (mult + rest1);
+          rest1 = 0
         } else {
           multArr.push (mult);
         }
       }
     }
     //console.log(multBig);
-    multBig.push (multArr.join (''));
-    console.log (multArr);
+    multBig.push (multArr.reverse().join (''));
+    // console.log (multArr);
     multArr = [];
   }
-  console.log (multBig);
+  // console.log (multBig);
   if (multBig.length === 1) {
-    return multBig[0];
+    if (multBig[0].replace (/^0+/, '') === '') {
+      return '0';
+    } else {
+      return multBig[0].replace (/^0+/, '');
+    }
   }
   multBig[1] = multBig[1] + 0;
   for (let i = 2; i < multBig.length; i++) {
@@ -97,14 +113,17 @@ function multiply (a, b) {
   }
   let result = '';
   console.log (multBig);
-  for (let i = 0; i < multBig.length; i++) {
-    result = result + add (result, multBig[i]);
-  }
-
+  // for (let i = 0; i < multBig.length; i++) {
+  //   result =  add (result, multBig[i]);
+  // }
+   result = multBig.reduce((a,b) => add(a,b))
+  console.log(result);
+  // if(res)
+  //console.log("shit");
   result = result.replace (/^0+/, '');
 
-  return result;
+  //return result;
 }
-console.log (multiply ('0', '30'));
+console.log (multiply("98765", "56894"));
 /// remove the zeros from the beginning
 // if length not equal switch
