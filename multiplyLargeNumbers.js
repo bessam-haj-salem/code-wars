@@ -1,3 +1,5 @@
+
+
 function multiply (a, b) {
   debugger;
   if (a !== '0' && b !== '0') {
@@ -55,6 +57,24 @@ function multiply (a, b) {
     }
     return arr3.reverse ().join ('');
   }
+  let addZero = arr1 => {
+    let len = arr1.length;
+    let arrZero = [''];
+    for (let i = 1; i < len; i++) {
+      arrZero[i] = arrZero[i - 1] + 0;
+    }
+   // console.log (arrZero);
+    let i = 0;
+    let j = 0;
+    let arrResult = [];
+    while (i < arr1.length && j < arrZero.length) {
+      arrResult.push (arr1[i] + arrZero[j]);
+      i++;
+      j++;
+    }
+
+    return arrResult;
+  };
   //**************** */
   //split numbers in arrays :
   let arrNumb1 = a.split ('');
@@ -71,7 +91,7 @@ function multiply (a, b) {
         mult = +arrNumb1[j] * +arrNumb2[i];
         //console.log (mult);
         if (mult >= 10) {
-          if (rest1 !== 0) {
+          
             if (j === 0) {
               mult = mult + rest1;
               multArr.push (mult);
@@ -81,16 +101,14 @@ function multiply (a, b) {
               rest1 = +mult.toString ().charAt (0);
               multArr.push (rest);
             }
-          } else {
-            rest = +mult.toString ().charAt (1);
-            rest1 = +mult.toString ().charAt (0);
-            multArr.push (rest);
-          }
+          
         } else {
-          if (rest1 !== 0) {
-            multArr.push (mult + rest1);
-            rest1 = 0;
+          if(j === 0) {
+            mult = mult + rest1;
+            multArr.push (mult);
           } else {
+            multArr.push (mult + rest1);
+            rest1 = 0;           
             multArr.push (mult);
           }
         }
@@ -102,7 +120,8 @@ function multiply (a, b) {
     multArr = [];
     rest1 = 0;
   }
-  // console.log (multBig);
+  multBig = addZero (multBig);
+   //console.log (multBig);
   if (multBig.length === 1) {
     if (multBig[0].replace (/^0+/, '') === '') {
       return '0';
@@ -110,25 +129,28 @@ function multiply (a, b) {
       return multBig[0].replace (/^0+/, '');
     }
   }
-  multBig[1] = multBig[1] + 0;
-  for (let i = 2; i < multBig.length; i++) {
-    multBig[i] = multBig[i].toString () + multBig[i - 1].slice (-i + 1) + 0;
-    // console.log(arrMulBig[i]);
-  }
+//   for (let i = 0; i < multBig.length; i++) {
+//     if (multBig[i].replace (/^0+/, '') === '') {
+//       multBig.splice(i,1)    
+//   }
+// }
+  console.log(multBig);
+  
+  
   let result = '';
-  console.log (multBig);
+ // console.log (multBig);
   // for (let i = 0; i < multBig.length; i++) {
   //   result =  add (result, multBig[i]);
   // }
 
   result = multBig.reduce ((a, b) => add (a, b));
-  console.log (result);
-  // if(res)
-  //console.log("shit");
+ 
   result = result.replace (/^0+/, '');
 
   return result;
 }
+//console.log(multiply("98765", "56894"));
 //console.log (multiply("1020303004875647366210", "2774537626200857473632627613"));
-console.log (multiply ('9007199254740991', '9007199254740991'));
-/// the problem is adding the zeros
+console.log (multiply ('9007', '901'));
+/// the problem is inside now with zeroo
+
