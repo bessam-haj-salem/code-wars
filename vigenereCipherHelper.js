@@ -43,17 +43,18 @@ function VigenèreCipher (key, abc) {
       if (str1.toUpperCase () === str1) {
         str1Result = str1;
       } else {
-        let index = alphabet.indexOf (str1);
+        let index = alphabet.indexOf (str1);       
         if (index >= 0) {
           if (length > index + n) {
             str1Result = alphabet[index + n];
           } else {
-            str1Result = alphabet[-(length - (index + n))];
+            str1Result = alphabet[index + n - length];            
           }
         }
       }
       return str1Result;
     };
+
     // return cipher(str,key)
     let i = 0;
     let j = 0;
@@ -62,19 +63,51 @@ function VigenèreCipher (key, abc) {
     let arrStr = str.split ('');
     let arrResult = [];
     while (i < arrKey.length && j < arrStr.length) {
-      arrResult.push (cipher (arrStr[j], alphabet.indexOf (arrKey[i])));
+      arrResult.push (cipher (arrStr[j], alphabet.indexOf (arrKey[i])));      
       i++;
       j++;
     }
-    return arrResult.join('');
+    return arrResult.join ('');
   };
   this.decode = function (str) {
-    //...
+    let decipher = (str1, n) => {     
+      let alphabet = abc.split ('');
+      let length = alphabet.length;
+      let str1Result = '';
+      if (str1.toUpperCase () === str1) {
+        str1Result = str1;
+      } else {
+        let index = alphabet.indexOf (str1);        
+        if (index >= 0) {
+          if (index - n >= 0) {
+            str1Result = alphabet[index - n];
+          } else {
+            str1Result = alphabet[length - (n - index)];            
+          }
+        }
+      }
+
+      return str1Result;
+    };
+    let i = 0;
+    let j = 0;
+    let alphabet = abc.split ('');
+    let arrKey = key.split ('');
+    let arrStr = str.split ('');
+    let arrResult = [];
+    while (i < arrKey.length && j < arrStr.length) {
+      arrResult.push (decipher (arrStr[j], alphabet.indexOf (arrKey[i])));      
+      i++;
+      j++;
+    }
+    return arrResult.join ('');
   };
 }
 
-var abc, key;
+// var abc, key;
 abc = 'abcdefghijklmnopqrstuvwxyz';
 key = 'password';
 let c = new VigenèreCipher (key, abc);
-console.log (c.encode (''));
+//console.log (c.decode ('CODEWARS'));
+
+console.log (c.encode ('CODEWARS'));
