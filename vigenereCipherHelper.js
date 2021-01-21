@@ -36,19 +36,20 @@
 
 function VigenèreCipher (key, abc) {
   this.encode = function (str) {
+    debugger
     let cipher = (str1, n) => {
       let alphabet = abc.split ('');
       let length = alphabet.length;
       let str1Result = '';
-      if (str1.toUpperCase () === str1) {
+      if (!alphabet.includes(str1)) {
         str1Result = str1;
       } else {
-        let index = alphabet.indexOf (str1);       
+        let index = alphabet.indexOf (str1);
         if (index >= 0) {
           if (length > index + n) {
             str1Result = alphabet[index + n];
           } else {
-            str1Result = alphabet[index + n - length];            
+            str1Result = alphabet[index + n - length];
           }
         }
       }
@@ -56,58 +57,115 @@ function VigenèreCipher (key, abc) {
     };
 
     // return cipher(str,key)
-    let i = 0;
-    let j = 0;
+   
     let alphabet = abc.split ('');
     let arrKey = key.split ('');
     let arrStr = str.split ('');
     let arrResult = [];
+    let i = 0;
+    let j = 0;
+    let k = 0
+    let d = arrKey.length
+    if(arrKey.length >= arrStr.length) {
     while (i < arrKey.length && j < arrStr.length) {
-      arrResult.push (cipher (arrStr[j], alphabet.indexOf (arrKey[i])));      
+      arrResult.push (cipher (arrStr[j], alphabet.indexOf (arrKey[i])));
       i++;
       j++;
     }
+  } else if(arrKey.length < arrStr.length) {
+    let newLength = arrStr.length - arrKey.length;
+    while (i < arrKey.length && j < arrStr.length) {
+      arrResult.push (cipher (arrStr[j], alphabet.indexOf (arrKey[i])));
+      i++;
+      j++;
+    }
+    while (k <= newLength && d < arrStr.length) {
+      arrResult.push (cipher (arrStr[d], alphabet.indexOf (arrKey[k])));
+      k++;
+      d++;
+    }
+
+  }
     return arrResult.join ('');
   };
   this.decode = function (str) {
-    let decipher = (str1, n) => {     
+    let decipher = (str1, n) => {
       let alphabet = abc.split ('');
       let length = alphabet.length;
       let str1Result = '';
-      if (str1.toUpperCase () === str1) {
+      if (!alphabet.includes(str1)) {
         str1Result = str1;
       } else {
-        let index = alphabet.indexOf (str1);        
+        let index = alphabet.indexOf (str1);
         if (index >= 0) {
           if (index - n >= 0) {
             str1Result = alphabet[index - n];
           } else {
-            str1Result = alphabet[length - (n - index)];            
+            str1Result = alphabet[length - (n - index)];
           }
         }
       }
 
       return str1Result;
     };
-    let i = 0;
-    let j = 0;
     let alphabet = abc.split ('');
     let arrKey = key.split ('');
     let arrStr = str.split ('');
     let arrResult = [];
+    let i = 0;
+    let j = 0;
+    let k = 0
+    let d = arrKey.length
+    if(arrKey.length >= arrStr.length) {
     while (i < arrKey.length && j < arrStr.length) {
-      arrResult.push (decipher (arrStr[j], alphabet.indexOf (arrKey[i])));      
+      arrResult.push (decipher (arrStr[j], alphabet.indexOf (arrKey[i])));
       i++;
       j++;
     }
+  } else if(arrKey.length < arrStr.length) {
+    let newLength = arrStr.length - arrKey.length;
+    while (i < arrKey.length && j < arrStr.length) {
+      arrResult.push (decipher (arrStr[j], alphabet.indexOf (arrKey[i])));
+      i++;
+      j++;
+    }
+    while (k <= newLength && d < arrStr.length) {
+      arrResult.push (decipher (arrStr[d], alphabet.indexOf (arrKey[k])));
+      k++;
+      d++;
+    }
+
+  }
     return arrResult.join ('');
   };
 }
 
 // var abc, key;
 abc = 'abcdefghijklmnopqrstuvwxyz';
+//var abc = 'アイウエオァィゥェォカキクケコサシスセソタチツッテトナニヌネノハヒフヘホマミムメモヤャユュヨョラリルレロワヲンー';
 key = 'password';
 let c = new VigenèreCipher (key, abc);
-//console.log (c.decode ('CODEWARS'));
+//console.log (c.decode ('eimbazmr'));
 
-console.log (c.encode ('CODEWARS'));
+//console.log (c.encode ('it\'s a shift cipher!'));
+
+
+  let cipher = (str1, n) => {
+    let alphabet = abc.split ('');
+    let length = alphabet.length;
+    let str1Result = '';
+    if (!alphabet.includes(str1)) {
+      str1Result = str1;
+    } else {
+      let index = alphabet.indexOf (str1);
+      if (index >= 0) {
+        if (length > index + n) {
+          str1Result = alphabet[index + n];
+        } else {
+          str1Result = alphabet[index + n - length];
+        }
+      }
+    }
+    return str1Result;
+  };
+  console.log(cipher("x", 0));
