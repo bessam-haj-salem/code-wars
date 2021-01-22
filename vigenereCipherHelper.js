@@ -34,6 +34,9 @@
 
 // c.encode('CODEWARS'); // returns 'CODEWARS'
 
+
+// Expected: 'xt\'k o vwixl qzswej!', instead got: 'xt\'k o vwixl qzsgdq!'
+// Expected: 'it\'s a shift cipher!', instead got: 'it\'s a shift cipxfk!'
 function VigenèreCipher (key, abc) {
   this.encode = function (str) {
     debugger
@@ -83,6 +86,9 @@ function VigenèreCipher (key, abc) {
       arrResult.push (cipher (arrStr[d], alphabet.indexOf (arrKey[k])));
       k++;
       d++;
+      if(k >= arrKey.length) {
+        k = 0
+      }
     }
 
   }
@@ -133,6 +139,9 @@ function VigenèreCipher (key, abc) {
       arrResult.push (decipher (arrStr[d], alphabet.indexOf (arrKey[k])));
       k++;
       d++;
+      if(k >= arrKey.length) {
+        k = 0
+      }
     }
 
   }
@@ -141,31 +150,12 @@ function VigenèreCipher (key, abc) {
 }
 
 // var abc, key;
-abc = 'abcdefghijklmnopqrstuvwxyz';
+ let abc = 'abcdefghijklmnopqrstuvwxyz';
 //var abc = 'アイウエオァィゥェォカキクケコサシスセソタチツッテトナニヌネノハヒフヘホマミムメモヤャユュヨョラリルレロワヲンー';
-key = 'password';
+let key = 'password';
 let c = new VigenèreCipher (key, abc);
 //console.log (c.decode ('eimbazmr'));
 
-//console.log (c.encode ('it\'s a shift cipher!'));
+console.log (c.encode ('it\'s a shift cipher!'));
 
 
-  let cipher = (str1, n) => {
-    let alphabet = abc.split ('');
-    let length = alphabet.length;
-    let str1Result = '';
-    if (!alphabet.includes(str1)) {
-      str1Result = str1;
-    } else {
-      let index = alphabet.indexOf (str1);
-      if (index >= 0) {
-        if (length > index + n) {
-          str1Result = alphabet[index + n];
-        } else {
-          str1Result = alphabet[index + n - length];
-        }
-      }
-    }
-    return str1Result;
-  };
-  console.log(cipher("x", 0));
