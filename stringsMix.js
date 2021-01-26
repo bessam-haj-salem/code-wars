@@ -18,8 +18,8 @@
 
 // Hopefully other examples can make this clearer.
 
- s1 = "my&friend&Paul has heavy hats! &"
- s2 = "my friend John has many many friends &"
+s1 = 'my&friend&Paul has heavy hats! &';
+s2 = 'my friend John has many many friends &';
 // mix(s1, s2) --> "2:nnnnn/1:aaaa/1:hhh/2:mmm/2:yyy/2:dd/2:ff/2:ii/2:rr/=:ee/=:ss"
 
 // s1 = "mmmmm m nnnnn y&friend&Paul has heavy hats! &"
@@ -33,23 +33,54 @@
 function mix (s1, s2) {
   s1 = s1.split ('');
   s2 = s2.split ('');
+
   let abc = 'abcdefghijklmnopqrstuvwxyz';
   abc = abc.split ('');
-  let arrLet = [];
-  let arrAllLet = [];
-  let count = 0;
-  // your code
-  for (let j = 0; j < abc.length; j++) {
-    for (let i = 0; i < s1.length; i++) {
-      if (s1[i] === abc[j]) {
-        arrLet.push (s1[i]);
-        count++
+  let mixArr = arr => {
+    let arrLet = [];
+    let arrAllLet = [];
+    let count = 0;
+    // your code
+    for (let j = 0; j < abc.length; j++) {
+      for (let i = 0; i < s1.length; i++) {
+        if (s1[i] === abc[j]) {
+          arrLet.push (s1[i]);
+          count++;
+        }
+      }
+      if (count !== 0) {
+        arrAllLet.push (count + ':' + arrLet.join (''));
+        arrLet = [];
+        count = 0;
       }
     }
-    arrAllLet.push (':' + arrLet.join ('') + "/" + count);
-    arrLet = []
-    count = 0
+    return arrAllLet;
+  };
+  let s1Arr = mixArr (s1);
+  let s2Arr = mixArr (s2);
+  console.log (s1Arr);
+  let searchNumb = str => {
+    let n = str.search (/\d+/);
+    return n;
+  };
+  let arrRes = [];
+  for (let i = 0; i < s1Arr.length; i++) {
+    for (let j = 0; j < s2Arr.length; j++) {
+      if (s1Arr[i][1] === s2Arr[j][1]) {
+        let s1n = searchNumb (s1Arr[i]);
+        console.log(s1n);
+        let s2n = searchNumb (s2Arr[j]);
+        if (s1n > s2n) {
+          arrRes.push (s1Arr[i]);
+          console.log(s1n, s2n);
+        } else if (s1n < s2n) {
+          arrRes.push (s2Arr[j]);
+        } else {
+          arrRes.push (s1Arr[i].replace (s1Arr[i][0], '=:'));
+        }
+      }
+    }
   }
-  console.log (arrAllLet);
+  //console.log(arrRes)
 }
-console.log(mix(s1, s2));
+console.log (mix (s1, s2));
