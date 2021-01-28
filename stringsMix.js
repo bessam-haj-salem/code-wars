@@ -19,7 +19,7 @@
 // Hopefully other examples can make this clearer.
 
 let s1 = 'my&friend&Paul has heavy hats! &';
- let s2 = 'my friend John has many many friends &';
+let s2 = 'my friend John has many many friends &';
 // mix(s1, s2) --> "2:nnnnn/1:aaaa/1:hhh/2:mmm/2:yyy/2:dd/2:ff/2:ii/2:rr/=:ee/=:ss"
 
 // s1 = "mmmmm m nnnnn y&friend&Paul has heavy hats! &"
@@ -34,7 +34,7 @@ function mix (s1, s2) {
   debugger;
   s1 = s1.split ('');
   s2 = s2.split ('');
-// console.log(s1,s2);
+  // console.log(s1,s2);
   let abc = 'abcdefghijklmnopqrstuvwxyz';
   abc = abc.split ('');
   let mixArr = arr => {
@@ -84,11 +84,22 @@ function mix (s1, s2) {
     }
   }
 
-  let arrResult = arrRes.sort((a,b) => {    
+  let arrResult = arrRes.sort ((a, b) => {
     return b.length - a.length;
   });
-  for (let i = 0; i< arrResult.length; i++) {
-    if(arrResult[i].length === )
+  // arrResult.sort()
+  // for (let i = 0; i< arrResult.length; i++) {
+  //   if(arrResult[i].length === )
+  // }
+  for (let i = 0; i < arrResult.length; i++) {
+  console.log( arrResult[i].length); 
+    if (arrResult[i].length === arrResult[i+1].length) {
+      if (abc.indexOf (arrResult[i][2]) > abc.indexOf (arrResult[i + 1][2])) {
+        let a = arrResult[i + 1][2];
+        arrResult[i + 1][2] = arrResult[i][2];
+        arrResult[i][2] = a;
+      } 
+    }
   }
   return arrResult;
 }
