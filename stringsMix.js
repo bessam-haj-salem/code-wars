@@ -91,16 +91,26 @@ function mix (s1, s2) {
   // for (let i = 0; i< arrResult.length; i++) {
   //   if(arrResult[i].length === )
   // }
+  let arrR = [];
   for (let i = 0; i < arrResult.length; i++) {
-  console.log( arrResult[i].length); 
-    if (arrResult[i].length === arrResult[i+1].length) {
-      if (abc.indexOf (arrResult[i][2]) > abc.indexOf (arrResult[i + 1][2])) {
-        let a = arrResult[i + 1][2];
-        arrResult[i + 1][2] = arrResult[i][2];
-        arrResult[i][2] = a;
-      } 
+    let arr = arrResult.filter (a => a.length === arrResult[i].length);
+    // if(arr.length > 1) {
+    if (arr.length === 1) {
+      arrR.push (arr);
+    } else if (arr.length > 1) {
+      let arr1 = arr.sort ();
+      arrR.push (arr);
+      // console.log(arr1);
     }
   }
-  return arrResult;
+let arrR1 = []
+    for(let i = 0; i< arrR.length; i++) {
+      let arr1 = arrR.filter (a => a.length === arrR[i].length);
+      arrR1.push(arr1[0])
+    }
+  console.log(arrR1);
+  // }
+
+  // return arrResult;
 }
 console.log (mix (s1, s2));
