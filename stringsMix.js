@@ -18,23 +18,21 @@
 
 // Hopefully other examples can make this clearer.
 
-let s1 = 'my&friend&Paul has heavy hats! &';
-let s2 = 'my friend John has many many friends &';
+// let s1 = 'my&friend&Paul has heavy hats! &';
+// let s2 = 'my friend John has many many friends &';
 // mix(s1, s2) --> "2:nnnnn/1:aaaa/1:hhh/2:mmm/2:yyy/2:dd/2:ff/2:ii/2:rr/=:ee/=:ss"
 
 // s1 = "mmmmm m nnnnn y&friend&Paul has heavy hats! &"
 // s2 = "my frie n d Joh n has ma n y ma n y frie n ds n&"
 // mix(s1, s2) --> "1:mmmmmm/=:nnnnnn/1:aaaa/1:hhh/2:yyy/2:dd/2:ff/2:ii/2:rr/=:ee/=:ss"
 
-// s1="Are the kids at home? aaaaa fffff"
-// s2="Yes they are here! aaaaa fffff"
+s1 = 'Are the kids at home? aaaaa fffff';
+s2 = 'Yes they are here! aaaaa fffff';
 // mix(s1, s2) --> "=:aaaaaa/2:eeeee/=:fffff/1:tt/2:rr/=:hh"
 
 function mix (s1, s2) {
-  debugger;
   s1 = s1.split ('');
   s2 = s2.split ('');
-  // console.log(s1,s2);
   let abc = 'abcdefghijklmnopqrstuvwxyz';
   abc = abc.split ('');
   let mixArr = arr => {
@@ -51,6 +49,7 @@ function mix (s1, s2) {
       }
       if (count !== 0) {
         arrAllLet.push (count + ':' + arrLet.join (''));
+
         arrLet = [];
         count = 0;
       }
@@ -59,58 +58,87 @@ function mix (s1, s2) {
   };
   let s1Arr = mixArr (s1);
   let s2Arr = mixArr (s2);
-  // console.log (s1Arr);
-  // console.log(s2Arr);
   let searchNumb = str => {
     let n = str.match (/\d+/);
     return +n[0];
   };
   let arrRes = [];
+  let count = 0
   for (let i = 0; i < s1Arr.length; i++) {
+    let s1n = searchNumb (s1Arr[i]);
+
     for (let j = 0; j < s2Arr.length; j++) {
+      let s2n = searchNumb (s2Arr[j]);
       if (s1Arr[i][2] === s2Arr[j][2]) {
-        let s1n = searchNumb (s1Arr[i]);
-        // console.log (s1n);
-        let s2n = searchNumb (s2Arr[j]);
-        if (s1n > s2n) {
-          arrRes.push (s1Arr[i].replace (s1Arr[i][0], '1'));
-          //console.log(s1n, s2n);
-        } else if (s1n < s2n) {
-          arrRes.push (s2Arr[j].replace (s2Arr[j][0], '2'));
-        } else {
-          arrRes.push (s1Arr[i].replace (s1Arr[i][0], '='));
+        if (s1n !== 1 || s2n !== 1) {
+          if (s1n > s2n) {
+            arrRes.push (s1Arr[i].replace (s1Arr[i][0], '1'));
+          } else if (s1n < s2n) {
+            arrRes.push (s2Arr[j].replace (s2Arr[j][0], '2'));
+          } else {
+            arrRes.push (s1Arr[i].replace (s1Arr[i][0], '='));
+          }
         }
+        
+      } else if (s1Arr[i][2] !== s2Arr[j][2]) {
+        
+        count++;
+       
+        if (s1n > 1 && count === s2Arr.length ) {
+          arrRes.push (s1Arr[i].replace (s1Arr[i][0], '1'));
+        }
+       
+      }
+   
+  }
+  count=0
+}
+//*************** */
+for (let i = 0; i < s2Arr.length; i++) {
+  for (let j = 0; j < s1Arr.length; j++) {
+    let s2n = searchNumb (s2Arr[i]);
+   if (s2Arr[i][2] !== s1Arr[j][2]) {
+      count++;
+      if (s2n > 1 && count === s1Arr.length ) {
+        arrRes.push (s2Arr[i].replace (s2Arr[i][0], '2'));
       }
     }
-  }
-
+}
+count=0
+}
+//**************** */
   let arrResult = arrRes.sort ((a, b) => {
     return b.length - a.length;
   });
-  // arrResult.sort()
-  // for (let i = 0; i< arrResult.length; i++) {
-  //   if(arrResult[i].length === )
-  // }
+
   let arrR = [];
   for (let i = 0; i < arrResult.length; i++) {
     let arr = arrResult.filter (a => a.length === arrResult[i].length);
-    // if(arr.length > 1) {
     if (arr.length === 1) {
       arrR.push (arr);
     } else if (arr.length > 1) {
       let arr1 = arr.sort ();
       arrR.push (arr);
-      // console.log(arr1);
     }
   }
-let arrR1 = []
-    for(let i = 0; i< arrR.length; i++) {
-      let arr1 = arrR.filter (a => a.length === arrR[i].length);
-      arrR1.push(arr1[0])
+  let mixer = arr => {
+    let obj = {};
+    for (let i = 0; i < arr.length; i++) {
+      obj[arr[i]] = i;
     }
-  console.log(arrR1);
-  // }
-
-  // return arrResult;
+    let arrResult = [];
+    let arr1 = Object.keys (obj);
+    for (let i = 0; i < arr1.length; i++) {
+      let arr2 = arr1[i].split (',');
+      for (let j = 0; j < arr2.length; j++) {
+        arrResult.push (arr2[j]);
+      }
+    }
+    return arrResult.join ('/');
+  };
+  return mixer (arrR);
 }
-console.log (mix (s1, s2));
+
+console.log (mix("Lords of the Fallen", "gamekult"));
+
+// console.log (mixer (arr1));
