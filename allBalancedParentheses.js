@@ -8,10 +8,12 @@
 
 function balancedParens (n) {
   let arrStr = [];
+  if (n === 0) {
+    return [''];
+  }
   for (let i = 0; i < n; i++) {
     arrStr.push ('(', ')');
   }
-  let string = arrStr.join ('');
   let isBalanced = str => {
     let stack = [];
     let pairs = {
@@ -29,27 +31,30 @@ function balancedParens (n) {
     }
     return stack.length === 0;
   };
-  function combinations (str) {
-    let fn = (active, rest, a) => {
-      if (!active && !rest) return;
-      if (!rest) {
-        a.push (active);
-      } else {
-        fn (active + rest[0], rest.slice (1), a);
-        fn (active, rest.slice (1), a);
-      }
-      return a;
-    };
-    return fn ('', str, []);
+  function getArrayMutations (arr, perms = [], len = arr.length) {
+    if (len === 1) perms.push (arr.slice (0));
+
+    for (let i = 0; i < len; i++) {
+      getArrayMutations (arr, perms, len - 1);
+
+      len % 2 // parity dependent adjacent elements swap
+        ? ([arr[0], arr[len - 1]] = [arr[len - 1], arr[0]])
+        : ([arr[i], arr[len - 1]] = [arr[len - 1], arr[i]]);
+    }
+    return perms;
   }
-  let arrResult = [];
-  let combinArray = combinations (string);
+  let combinArray = getArrayMutations (arrStr);
+  console.log(combinArray);
+  let obj ={}
   for (let i = 0; i < combinArray.length; i++) {
     if (isBalanced (combinArray[i])) {
-      arrResult.push (combinArray[i]);
+      obj[combinArray[i].join('')] = i;
     }
   }
-  return arrResult;
+
+
+  let arr1 = Object.keys (obj);
+  return arr1;
 }
 
-console.log (balancedParens (3));
+console.log (balancedParens (4));
