@@ -2,7 +2,7 @@
 
 // Examples
 // balancedParens(0) => [""]
-// balancedParens(1) => ["()"]
+// balancedPare => ["()"]
 // balancedParens(2) => ["()()","(())"]
 // balancedParens(3) => ["()()()","(())()","()(())","(()())","((()))"]
 
@@ -31,30 +31,56 @@ function balancedParens (n) {
     }
     return stack.length === 0;
   };
-  function getArrayMutations (arr, perms = [], len = arr.length) {
-    if (len === 1) perms.push (arr.slice (0));
 
-    for (let i = 0; i < len; i++) {
-      getArrayMutations (arr, perms, len - 1);
+  function permute(nums) {
+    let result = [];
+    let obj = {}
+    if (nums.length === 0) return [];
+    if (nums.length === 1) return [nums];
+   for (let i = 0; i < nums.length; i++) {
+      const currentNum = nums[i];
+      const remainingNums = nums.slice(0, i).concat(nums.slice(i +  1));
+      const remainingNumsPermuted = permute(remainingNums);
+     for (let j = 0; j < remainingNumsPermuted.length; j++) {
+        const permutedArray = [currentNum].concat(remainingNumsPermuted[j]);
+        obj[permutedArray.join('')] = j
 
-      len % 2 // parity dependent adjacent elements swap
-        ? ([arr[0], arr[len - 1]] = [arr[len - 1], arr[0]])
-        : ([arr[i], arr[len - 1]] = [arr[len - 1], arr[i]]);
+      }
     }
-    return perms;
-  }
-  let combinArray = getArrayMutations (arrStr);
-  console.log(combinArray);
-  let obj ={}
+    result = Object.keys (obj);
+    return result;
+   }
+  let combinArray = permute (arrStr);
+ let arr1 = []
   for (let i = 0; i < combinArray.length; i++) {
     if (isBalanced (combinArray[i])) {
-      obj[combinArray[i].join('')] = i;
+     arr1.push(combinArray[i])
     }
   }
-
-
-  let arr1 = Object.keys (obj);
   return arr1;
 }
 
 console.log (balancedParens (4));
+
+//  function permute(nums) {
+//     let result = [];
+//     let obj = {}
+//     if (nums.length === 0) return [];
+//     if (nums.length === 1) return [nums];
+//    for (let i = 0; i < nums.length; i++) {
+//       const currentNum = nums[i];
+//       const remainingNums = nums.slice(0, i).concat(nums.slice(i +  1));
+//       const remainingNumsPermuted = permute(remainingNums);
+//      for (let j = 0; j < remainingNumsPermuted.length; j++) {
+//         const permutedArray = [currentNum].concat(remainingNumsPermuted[j]);
+//         // result.push(permutedArray);
+//         obj[permutedArray.join('')] = j
+
+//       }
+//     }
+//     result = Object.keys (obj);
+//     return result;
+//    }
+   
+   
+//  console.log(permute([1,2,3,4,5,6]));
