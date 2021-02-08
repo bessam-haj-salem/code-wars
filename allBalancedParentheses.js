@@ -43,10 +43,12 @@ function balancedParens (n) {
       const remainingNumsPermuted = permute(remainingNums);
      for (let j = 0; j < remainingNumsPermuted.length; j++) {
         const permutedArray = [currentNum].concat(remainingNumsPermuted[j]);
+        console.log(permutedArray.join(''));
         obj[permutedArray.join('')] = j
 
       }
     }
+    // console.log(obj);
     result = Object.keys (obj);
     return result;
    }
