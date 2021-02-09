@@ -19,17 +19,23 @@ function encodeRailFenceCipher (string, numberRails) {
   console.log (arr);
   let arr1 = [];
   let arr2 = [];
-  for (let i = 1; i < arr.length; i += numberRails) {
-    console.log (i);
-    for (let j = i - 1; j < i + numberRails - 1; j++) {
-      console.log (arr[j]);
-      arr1.push (arr[j]);
-    }
-    arr2.push (arr1);
-    arr1 = [];
-  }
+  for (let i = numberRails; i < arr.length; i += numberRails) {
+    // arr1.unshift(arr[i])
+     
+ 
+        arr1.unshift (arr[i - 1]);
+        for (let j = i; j < i + numberRails; j++) {
+          arr1.push (arr[j]);
+        }
+        arr1.pop ();
+        arr2.push (arr1);
+        arr1 = [];
+      }
   console.log (arr2);
+    
+
+   
+  }
   // code
-}
 
 console.log (encodeRailFenceCipher ('WEAREDISCOVEREDFLEEATONCE', 3));
