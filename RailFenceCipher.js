@@ -19,23 +19,41 @@ function encodeRailFenceCipher (string, numberRails) {
   console.log (arr);
   let arr1 = [];
   let arr2 = [];
-  for (let i = numberRails; i < arr.length; i += numberRails) {
-    // arr1.unshift(arr[i])
-     
- 
-        arr1.unshift (arr[i - 1]);
-        for (let j = i; j < i + numberRails; j++) {
-          arr1.push (arr[j]);
-        }
-        arr1.pop ();
-        arr2.push (arr1);
-        arr1 = [];
-      }
-  console.log (arr2);
-    
+  let arrResult1 = []
+  let arrResult2 = []
+  let arrResult3 = []
 
-   
+  for (let i = numberRails; i < arr.length; i += numberRails) {
+    arr.splice (i, 0, arr[i - 1]);
   }
-  // code
+  console.log (arr);
+  for (let i = 0; i < arr.length; i += numberRails) {
+    for (let j = i; j < numberRails + i; j++) {
+      arr1.push (arr[j]);
+    }
+    arr2.push (arr1);
+    arr1 = [];
+  }
+  console.log (arr2);
+  for (let i = 0; i < arr2.length; i+= numberRails - 1) {
+    arrResult3.push(arr2[i][arr2[i].length - 1])
+  }
+  for (let i = 0; i < arr2.length; i+= numberRails - 1) {
+    arrResult1.push(arr2[i][0])
+  }
+  arrResult1.push(arr2[arr2.length][arr2[arr.length - 1]])
+  for (let i = 0; i < arr2.length; i++) {
+    arrResult2.push(arr2[i][])
+  }
+  console.log (arr2);
+  //  for(let i = 1; i < arr2.length; i++) {
+
+  //    arr2[i].unshift(arr2[i - 1][arr2[i - 1].length - 1])
+  //   // arr2[i-1].pop()
+  //  }
+
+  // console.log (arr1);
+}
+// code
 
 console.log (encodeRailFenceCipher ('WEAREDISCOVEREDFLEEATONCE', 3));
