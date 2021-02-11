@@ -16,17 +16,17 @@
 
 function encodeRailFenceCipher (string, numberRails) {
   let arr = string.split ('');
-  console.log (arr);
+  // console.log (arr);
   let arr1 = [];
   let arr2 = [];
-  let arrResult1 = []
-  let arrResult2 = []
-  let arrResult3 = []
+  let arrResult1 = [];
+  let arrResult2 = [];
+  let arrResult3 = [];
 
   for (let i = numberRails; i < arr.length; i += numberRails) {
     arr.splice (i, 0, arr[i - 1]);
   }
-  console.log (arr);
+  // console.log (arr);
   for (let i = 0; i < arr.length; i += numberRails) {
     for (let j = i; j < numberRails + i; j++) {
       arr1.push (arr[j]);
@@ -34,26 +34,24 @@ function encodeRailFenceCipher (string, numberRails) {
     arr2.push (arr1);
     arr1 = [];
   }
-  console.log (arr2);
-  for (let i = 0; i < arr2.length; i+= numberRails - 1) {
-    arrResult3.push(arr2[i][arr2[i].length - 1])
+  for (let i = 0; i < arr2.length; i += numberRails - 1) {
+    arrResult3.push (arr2[i][arr2[i].length - 1]);
   }
-  for (let i = 0; i < arr2.length; i+= numberRails - 1) {
-    arrResult1.push(arr2[i][0])
+  for (let i = 0; i < arr2.length; i += numberRails - 1) {
+    arrResult1.push (arr2[i][0]);
   }
-  arrResult1.push(arr2[arr2.length][arr2[arr.length - 1]])
+  // arrResult1.push(arr2[arr2.length-1][arr2[arr2.length-1][arr2[arr2.length-1]]])
+  let arrF = arr2.flat ();
+
+  arrResult1.push (arrF[arrF.length - 1]);
+  //   console.log(arrResult1);
   for (let i = 0; i < arr2.length; i++) {
-    arrResult2.push(arr2[i][])
+    arrResult2.push (arr2[i][1]);
   }
-  console.log (arr2);
-  //  for(let i = 1; i < arr2.length; i++) {
-
-  //    arr2[i].unshift(arr2[i - 1][arr2[i - 1].length - 1])
-  //   // arr2[i-1].pop()
-  //  }
-
-  // console.log (arr1);
+  return [...arrResult1, ...arrResult2, ...arrResult3].join ('');
 }
 // code
-
-console.log (encodeRailFenceCipher ('WEAREDISCOVEREDFLEEATONCE', 3));
+function decodeRailFenceCipher(string, numberRails) {
+  // code
+}
+console.log (encodeRailFenceCipher ('Hello, World!', 3));
